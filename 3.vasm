@@ -1,0 +1,40 @@
+; vim: ft=vasm
+
+    A=IN1,B=19
+    A=IN1,B=D=A,C=B
+cmpbig:
+    A=B-A,F=NEG()
+    A=B-A,JMPF cmpsmall
+    B=A ; save new highest
+cmpsmall:
+    A=B,B=A
+    A=D,D=A
+    A=B-A,F=NEG()
+    A=B-A,JMPF lastswap
+    A=B ;save new lowest
+lastswap:
+    A=D,D=A
+    A=IN1,B=A,DECNZ cmpbig
+
+    A=D,D=A,W=B
+    OUT1=W,W=A
+    OUT1=W
+
+
+; testing biggest
+;
+;  A  |  B  |  D  |
+;  n  |  ^  |  v  |
+; ^-n |     |     | (n is bigger so ^-n is negative)
+;  n  |     |     | (B-=A, n was the highest, so now ^)
+;  ^  |     |     |
+;  v  |     |  ^  | ...
+
+
+; testing lowest
+;
+;  A  |  B  |  D  |
+;  v  |  n  |  ^  |
+; n-v |  n  |     |
+;     |     |     |
+;     |     |     |

@@ -1,0 +1,35 @@
+; vim: ft=vasm
+
+    A=IN1
+    B=W=A
+loop:
+    OUT1=W,A=IN1,W=B
+    OUT2=W,B=A+B,W=A,JMP loop
+
+
+; This looks optimal but doesnt work because you
+; cant do A=IN1 and OUT2=W in the same cycle
+;
+; A  |  B  |  W  | O1 | O2
+; 1  |     |     |    |
+; 2  |  1  |  1  |    |
+;    |  +2 |  +2 |  1 |
+; 3  |     |  2  |    | +2
+;    |  +3 |  +3 |  2 |
+; 4  |     |  3  |    | +3
+;    |  +4 |  +4 |  3 |
+; 5  |     |  4  |    | +4
+
+
+
+; This does it though
+;
+; A  |  B  |  W  | O1 | O2
+; 1  |     |     |    |
+;    |  1  |  1  |    |
+; 2  |     |     |  1 |
+;    |  +2 |  2  |    | 1
+; 3  |     |  +2 |  2 |
+;    |  +3 |  3  |    | +2
+; 4  |     |  +3 |  3 | 
+;    |  +4 |  +4 |    | +3

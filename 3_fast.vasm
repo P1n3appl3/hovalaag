@@ -1,0 +1,55 @@
+; vim: ft=vasm
+
+    A=IN1,B=18
+    A=IN1,B=D=A,C=B
+    A=IN1,B=A,F=POS(B-A) ; if pos, D was bigger than B
+    F=POS(B-A),JMPT startsmall
+    A=B,B=A,JMPF more
+    A=D,D=A,JMP smallrev
+
+
+small:
+    F=POS(B-A)
+startsmall:
+    A=B,B=A,JMPT less
+    A=D,D=A,JMP bigrev
+
+big:
+    F=NEG(B-A)
+    A=B,B=A,JMPT more
+    A=D,D=A,JMP smallrev
+
+smallrev:
+    F=NEG(B-A)
+    A=B,B=A,JMPT lessrev
+    A=IN1,DECNZ small
+    A=B,JMP endsmall
+
+bigrev:
+    F=POS(B-A)
+    A=B,B=A,JMPT morerev
+    A=IN1,DECNZ big
+    A=D,D=A,W=B,JMP endbig
+
+less:
+    A=IN1,DECNZ small
+    A=B,JMP endsmall
+
+more:
+    A=IN1,DECNZ big
+    A=D,D=A,W=B,JMP endbig
+
+lessrev:
+    A=IN1,B=A,DECNZ small
+    A=B,JMP endsmall
+
+morerev:
+    A=IN1,B=A,DECNZ big
+    A=D,D=A,W=B,JMP endbig
+
+endsmall:
+    A=D,D=A
+    W=A,A=D,D=A
+endbig:
+    OUT1=W,W=A
+    OUT1=W
