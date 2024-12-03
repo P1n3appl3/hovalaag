@@ -1,5 +1,3 @@
-; vim: ft=vasm
-
     A=IN1,B=18
     A=IN1,B=D=A,C=B
     A=IN1,B=A,F=POS(B-A) ; if pos, D was bigger than B

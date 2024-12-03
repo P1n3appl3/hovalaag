@@ -1,5 +1,3 @@
-; vim: ft=vasm
-
     A=IN1,B=19
     A=IN1,B=D=A,C=B
 cmpbig:

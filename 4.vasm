@@ -1,4 +1,3 @@
-; vim: ft=vasm
 first:  A=IN1,B=4,W=0,OUT1=W
 second: A=IN1,B=5,F=ZERO(B-A)
 third:  A=IN1,F=ZERO(B-A),JMPF first,OUT1=W
